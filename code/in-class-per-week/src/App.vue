@@ -4,6 +4,7 @@ import Week1 from './components/weeks/Week1.vue';
 import Week2 from './components/weeks/Week2.vue';
 import Week3 from './components/weeks/Week3.vue';
 import Week4 from './components/weeks/Week4.vue';
+import Poker from './components/games/Poker.vue';
 
 const classes = reactive([
     {
@@ -24,6 +25,11 @@ const classes = reactive([
     {
         id: 'wk4',
         title: 'Week 4',
+        selected: false,
+    },
+    {
+        id: 'game1',
+        title: 'Poker Game',
         selected: true,
     }
 ]);
@@ -83,6 +89,10 @@ const selectClass = (classId) => {
     <div v-if="classes[3].selected" class="p-4">
         <h1 class="text-4xl">Week 4</h1>
         <Week4 />
+    </div>
+    <div v-if="classes[4].selected" class="p-4">
+        <h1 class="text-4xl">Poker Game</h1>
+        <Poker />
     </div>
 </template>
 
