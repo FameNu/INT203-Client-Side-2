@@ -1,9 +1,11 @@
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive } from 'vue';
 
 class Poker {
     constructor(suit, value) {
         this.suit = suit;
+        this.valuePioritySuit = this.pioritySuit();
         this.value = value;
+        this.valuePiorityValue = this.piorityValue();
         this.faceDown = ref(false);
     }
 
@@ -115,8 +117,6 @@ function PokerMangement() {
         shuffleDeck();
     };
 
-    const compareCards = (card1, card2) => {};
-
     const countCardsInDeck = () => {
         return deck.length;
     };
@@ -143,7 +143,6 @@ function PokerMangement() {
         getDeck,
         shuffleDeck,
         resetDeck,
-        compareCards,
         countCardsInDeck,
         countFaceDown,
         countFaceUp,
@@ -152,3 +151,4 @@ function PokerMangement() {
 }
 
 export default PokerMangement;
+export { Poker };
