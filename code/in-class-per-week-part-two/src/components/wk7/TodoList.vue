@@ -31,7 +31,7 @@ const props = defineProps({
         <template #subTitle>{{ slotProps.item.category }}</template>
         <template #content>{{ slotProps.item.description }}</template>
         <template #action>
-          <button class="btn">Edit</button>
+          <button class="btn" @click="$emit('editMode', slotProps.item)">Edit</button>
           <button class="btn">delete</button>
         </template>
       </BaseCard>

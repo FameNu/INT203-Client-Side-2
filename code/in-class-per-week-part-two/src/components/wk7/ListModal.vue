@@ -9,7 +9,7 @@ defineProps({
 
 <template>
   <div>
-    <div class="text-2xl font-bold tracking-wide">
+    <div class="text-2xl font-bold tracking-wide mb-4">
       <slot name="header"></slot>
     </div>
     <div class="flex flex-wrap gap-4">
