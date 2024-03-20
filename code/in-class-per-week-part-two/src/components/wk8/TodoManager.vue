@@ -2,7 +2,9 @@
 import TodoList from '../wk7/TodoList.vue';
 import AddEditTodo from '../wk8/AddEditTodo.vue';
 import todos from '../../../data/todos.json';
-import { ref, reactive } from 'vue';
+import { TodoManagement } from './libs/TodoManagement';
+import { ref, reactive, onMounted } from 'vue';
+import { addItem, deleteItemById, editItem, getItems } from './libs/fetchUtils';
 const addPage = ref(false);
 const modelEditTodo = ref({
   id: undefined,
@@ -15,11 +17,55 @@ const handlerAddPage = (status) => {
 const openModalToEdit = (todo) => {
   // console.log(todo)
   modelEditTodo.value = todo;
-  addPage.value = true
-}
+  addPage.value = true;
+};
 const clearModal = (flag) => {
-  addPage.value = flag
-}
+  addPage.value = flag;
+  modelEditTodo.value = {
+    id: undefined,
+    category: '',
+    description: '',
+  };
+};
+const myTodos = ref(new TodoManagement());
+onMounted(async () => {
+  const items = await getItems(import.meta.env.VITE_BASE_URL);
+  myTodos.value.addTodos(items);
+});
+const removeTodo = async (removeId) => {
+  const statusCode = await deleteItemById(
+    import.meta.env.VITE_BASE_URL,
+    removeId
+  );
+  if (statusCode === 200) {
+    myTodos.value.removeTodo(removeId);
+  }
+};
+
+const updateTodo = async (newTodo) => {
+  if (newTodo.id === undefined) {
+    const addedItem = await addItem(import.meta.env.VITE_BASE_URL, {
+      category: newTodo.category,
+      description: newTodo.description,
+    });
+    myTodos.value.addTodo(addedItem.id, addedItem.category, addedItem.description);
+  }
+  else {
+    const editedItem = await editItem(
+      import.meta.env.VITE_BASE_URL,
+      newTodo.id,
+      newTodo
+    )
+    //frontend, updateTodo(id, category, description)
+    myTodos.value.updateTodo(
+      editedItem.id,
+      editedItem.category,
+      editedItem.description
+    )
+  }
+  // await addItem(import.meta.env.VITE_BASE_URL, newTodo);
+  clearModal(false);
+};
 </script>
 
 <template>
@@ -31,9 +77,13 @@ const clearModal = (flag) => {
           class="px-2 py-0.5 text-green-600 rounded-lg hover:text-green-500"
         >
           Add new Todo
-        </button> 
+        </button>
       </div>
-      <TodoList :todos="todos" @editMode="openModalToEdit" />
+      <TodoList
+        :todos="myTodos.getTodos()"
+        @editMode="openModalToEdit"
+        @deleteTodo="removeTodo"
+      />
     </div>
     <Teleport v-if="addPage" to="#addEditModal">
       <div
@@ -45,7 +95,11 @@ const clearModal = (flag) => {
         >
           Close
         </button> -->
-        <AddEditTodo @closeModal="clearModal" :todo="modelEditTodo" />
+        <AddEditTodo
+          @closeModal="clearModal"
+          @saveTodo="updateTodo"
+          :todo="modelEditTodo"
+        />
       </div>
     </Teleport>
     <!-- <Teleport v-if="editPage" to="#addEditModal">

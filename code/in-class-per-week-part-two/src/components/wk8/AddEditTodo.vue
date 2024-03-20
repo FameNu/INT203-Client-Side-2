@@ -35,6 +35,7 @@ const previousTodo = computed(() => props.todo)
     </div>
     <div class="flex gap-3">
       <button
+      @click="$emit('saveTodo', previousTodo)"
         class="bg-slate-100 border border-gray-300 rounded-md hover:opacity-80 px-2 py-0.5"
       >
         Save

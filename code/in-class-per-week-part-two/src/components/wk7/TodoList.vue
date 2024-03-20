@@ -2,7 +2,8 @@
 import { reactive } from 'vue';
 import BaseCard from './BaseCard.vue';
 import ListModel from './ListModal.vue';
-import todos from '../../../data/todos.json';
+// import todos from '../../../data/todos.json';
+defineEmits(['editMode', 'deleteTodo'])
 const settingCard = reactive({
   title: 'INT203',
   subTitle: 'Client-side Programming 2',
@@ -12,6 +13,10 @@ const settingCard = reactive({
 });
 const props = defineProps({
   counter: Number,
+  todos: {
+    type: Array,
+    default: () => []
+  }
 });
 </script>
 
@@ -32,7 +37,7 @@ const props = defineProps({
         <template #content>{{ slotProps.item.description }}</template>
         <template #action>
           <button class="btn" @click="$emit('editMode', slotProps.item)">Edit</button>
-          <button class="btn">delete</button>
+          <button class="btn" @click="$emit('deleteTodo', slotProps.item.id)">delete</button>
         </template>
       </BaseCard>
     </template>

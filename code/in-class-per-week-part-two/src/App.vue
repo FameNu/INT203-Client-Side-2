@@ -3,6 +3,7 @@ import { reactive } from 'vue';
 import Week6 from './components/week/Week6.vue';
 import Week7 from './components/week/Week7.vue';
 import Week8 from './components/week/Week8.vue';
+import Nav from './views/Nav.vue';
 const classes = reactive([
   {
     id: 'wk6',
@@ -29,6 +30,7 @@ const selectClass = (classId) => {
 </script>
 
 <template>
+  <Nav></Nav>
   <div class="join pb-4">
     <input
       class="join-item btn"
@@ -41,6 +43,7 @@ const selectClass = (classId) => {
       @click="selectClass(classWk.id)"
     />
   </div>
+  <RouterView />
   <div class="p-4" v-if="classes[0].selected">
     <Week6 />
   </div>
