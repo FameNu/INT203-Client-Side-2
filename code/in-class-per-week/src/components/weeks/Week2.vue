@@ -31,6 +31,31 @@ function formatDate(date) {
 
 // for v-show
 const hide = true;
+
+// for v-if, v-else, v-else-if
+let block1 = ref(false);
+let block2 = ref(false);
+let block3 = ref(false);
+
+// for v-for
+// array 
+const members = ['John', 'Jane', 'Jack', 'Jill', 'Jenny'];
+//object 
+const member = {
+    name: 'John',
+    age: 23,
+    email: 'johnzaza@gmail.com'
+};
+
+// for v-on
+const onCounting = ref(1)
+const increment = () => {
+    onCounting.value += 1;
+}
+const newValue = ref(0)
+const updateValue = (event) => {
+    onCounting.value = parseInt(event.target.value);
+}
 </script>
 
 <template>
@@ -72,6 +97,58 @@ const hide = true;
         <div>
             <h1>v-show</h1>
             <p v-show="hide">{{ notHTML }}</p>
+        </div>
+        <hr>
+        <div>
+            <h1>v-if, v-else, v-else-if</h1>
+            <label for="if1">Block 1 </label><input type="checkbox" name="block1" id="if1" v-model="block1"><br>
+            <label for="if2">Block 2 </label><input type="checkbox" name="block2" id="if2" v-model="block2"><br>
+            <label for="if3">Block 3 </label><input type="checkbox" name="block2" id="if3" v-model="block3">
+        </div>
+        <div v-if="block1">
+            <p>Block 1</p>
+        </div>
+        <div v-else-if="block2 && block3">
+            <p>Block 2</p>
+        </div>
+        <div v-else>
+            <p>Block 3</p>
+        </div>
+        <hr>
+        <div>
+            <h1>v-for</h1>
+            <ul>
+                <li v-for="(n) in 5">{{ n }}</li>
+            </ul>
+            <div class="flex gap-8 items-center">
+                <h2>v-for array</h2>
+                <div class="border-2 border-green-300 p-4 rounded-lg" v-for="(name, index) in members" :key="index">
+                    <p>{{index}}. name: {{ name }}</p>
+                </div>
+            </div>
+            <div class="border-2 border-green-300 p-4 rounded-lg w-fit">
+                <p v-for="(item, key, index) in member" :key="index">
+                    {{index}}. {{ key }}: {{ item }}
+                </p>
+            </div>
+        </div>
+        <hr>
+        <div>
+            <h1>v-on</h1>
+            <div>
+                <h2>Click to increment</h2>
+                <p class="border-2 border-green-300 p-4 rounded-lg w-fit">{{ onCounting }}</p>
+                <button class="btn" @click="increment">Increment</button>
+            </div>
+            <div>
+                <h2>Enter button to increment</h2>
+                <input type="text" @keyup.enter="updateValue" v-model="newValue">
+            </div>
+        </div>
+        <hr>
+        <div>
+            <h1>event</h1>
+            <a @click.prevent="'www.github.com'">GitHub</a>
         </div>
     </div>
 </template>

@@ -12,9 +12,9 @@ const multiple = ref(1)
 <!-- <p>Number of Card: <input type="number" class="input input-bordered" v-model="count"></p>
 <p>multiple <input type="number" class="input input-bordered" v-model="multiple"></p> -->
 <!-- <TodoList :counter="count * multiple" /> -->
-<TodoList />
 <!-- <TodoList /> -->
-<!-- <ProductList></ProductList> -->
+<!-- <TodoList /> -->
+<ProductList></ProductList>
 </template>
  
 <style scoped>
